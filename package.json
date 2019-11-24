@@ -1,0 +1,61 @@
+{
+  "name": "js-dev-env",
+  "version": "1.0.0",
+  "description": "JavaScript Startup Kit",
+  "main": "index.js",
+  "scripts": {
+    "prestart": "babel-node buildScripts/startMessage.js",
+    "start": "npm-run-all --parallel open:src lint:watch test:watch",
+    "open:src": "babel-node buildScripts/srcServer.js",
+    "share": "now",
+    "lint": "esw webpack.config.* src buildScripts --color",
+    "lint:watch": "npm run lint -- --watch",
+    "build": "babel src --out-dir public --copy-files",
+    "test": "mocha --reporter progress buildScripts/testSetup.js \"src/**/*.test.js\"",
+    "test:watch": "npm run test -- --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mnjalale/js-dev-env.git"
+  },
+  "author": "Martin Njalale",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mnjalale/js-dev-env/issues"
+  },
+  "homepage": "https://github.com/mnjalale/js-dev-env#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/cli": "^7.7.0",
+    "@babel/core": "^7.7.2",
+    "@babel/node": "^7.7.0",
+    "@babel/preset-env": "^7.7.1",
+    "@babel/register": "^7.7.0",
+    "babel-loader": "^8.0.6",
+    "chai": "^4.2.0",
+    "chalk": "^3.0.0",
+    "cheerio": "^1.0.0-rc.3",
+    "cross-env": "^6.0.3",
+    "css-loader": "^3.2.0",
+    "eslint": "^6.6.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-watch": "^6.0.1",
+    "express": "^4.17.1",
+    "html-webpack-plugin": "^3.2.0",
+    "jsdom": "^15.2.1",
+    "localtunnel": "^2.0.0",
+    "mocha": "^6.2.2",
+    "nock": "^11.7.0",
+    "now": "^16.6.0",
+    "npm-run-all": "^4.1.5",
+    "nsp": "^3.2.1",
+    "numeral": "^2.0.6",
+    "open": "^7.0.0",
+    "rimraf": "^3.0.0",
+    "style-loader": "^1.0.0",
+    "webpack": "^4.41.2",
+    "webpack-dev-middleware": "^3.7.2",
+    "webpack-hot-middleware": "^2.25.0",
+    "webpack-md5-hash": "0.0.6"
+  }
+}
