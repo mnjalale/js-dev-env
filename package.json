@@ -5,14 +5,20 @@
   "main": "index.js",
   "scripts": {
     "prestart": "babel-node buildScripts/startMessage.js",
-    "start": "npm-run-all --parallel open:src lint:watch test:watch",
+    "start": "npm-run-all --parallel open:src lint:watch test:watch start-mockapi",
     "open:src": "babel-node buildScripts/srcServer.js",
     "share": "now",
     "lint": "esw webpack.config.* src buildScripts --color",
     "lint:watch": "npm run lint -- --watch",
-    "build": "babel src --out-dir public --copy-files",
     "test": "mocha --reporter progress buildScripts/testSetup.js \"src/**/*.test.js\"",
-    "test:watch": "npm run test -- --watch"
+    "test:watch": "npm run test -- --watch",
+    "generate-mock-data": "babel-node buildScripts/mocks/generateMockData",
+    "prestart-mockapi": "npm run generate-mock-data",
+    "start-mockapi": "json-server --watch src/api/db.json --port 3001",
+    "clean-dist": "rimraf ./dist && mkdir dist",
+    "prebuild": "npm-run-all clean-dist test lint",
+    "build": "babel-node buildScripts/build.js",
+    "postbuild": "babel-node buildScripts/distserver.js"
   },
   "repository": {
     "type": "git",
@@ -24,7 +30,9 @@
     "url": "https://github.com/mnjalale/js-dev-env/issues"
   },
   "homepage": "https://github.com/mnjalale/js-dev-env#readme",
-  "dependencies": {},
+  "dependencies": {
+    "whatwg-fetch": "^3.0.0"
+  },
   "devDependencies": {
     "@babel/cli": "^7.7.0",
     "@babel/core": "^7.7.2",
@@ -35,15 +43,21 @@
     "chai": "^4.2.0",
     "chalk": "^3.0.0",
     "cheerio": "^1.0.0-rc.3",
+    "compression": "^1.7.4",
     "cross-env": "^6.0.3",
     "css-loader": "^3.2.0",
     "eslint": "^6.6.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-watch": "^6.0.1",
     "express": "^4.17.1",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "faker": "^4.1.0",
     "html-webpack-plugin": "^3.2.0",
     "jsdom": "^15.2.1",
+    "json-schema-faker": "^0.5.0-rc23",
+    "json-server": "^0.15.1",
     "localtunnel": "^2.0.0",
+    "mini-css-extract-plugin": "^0.8.0",
     "mocha": "^6.2.2",
     "nock": "^11.7.0",
     "now": "^16.6.0",
